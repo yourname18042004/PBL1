@@ -43,6 +43,11 @@ void In_Doanh_Thu(char Ngay[][15],  char MDD[][10], char Doanh_Thu[][15], int n)
 void Tim_Kiem_Ngay(char Ngay[][15], char Dia_Chi_File[][max], char Doanh_Thu[][15], int n);
 void Doanh_Thu(char DiaChiGhiFile[max]);
 
+// HAM THAO TAC VOI MON AN, THEM MON, XOA MON
+void Them_Mon();
+void Sap_Xep_MENU();
+void Xoa_Mon();
+
 int main(){ //////////////////////////////////////////////////////////////////////////main
 	Doc_MENU();
 	Doc_Loai_Mon();
@@ -77,6 +82,7 @@ int main(){ ////////////////////////////////////////////////////////////////////
 		printf("3. Xem tong doanh thu trong ngay\n");
 		printf("4. Thao tac voi doanh thu\n");
 		printf("5. Them mon\n");
+		printf("6. Xoa mon\n");
 		printf("0. Thoat\n");
 		printf("Nhap thoa tac:"); scanf("%d", &t1);
 		system("cls"); 
@@ -96,6 +102,9 @@ int main(){ ////////////////////////////////////////////////////////////////////
 				break;
 			case 5:
 				Them_Mon();
+				break;
+			case 6:
+				Xoa_Mon();
 				break;
 			case 0: 
 				printf("Nhap ma giao dich: ");
@@ -272,29 +281,33 @@ void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]){
 	
 	char read[max];
 	int dem = 0;
-	fgets(read, max, f);
+	if(fgets(read, max, f) == NULL){
+		printf("Chua co hoa don!!\n");
+		system("pause");
+		return;
+	}
 	do{ // chuyen con tro den vi tri hoa don can xuat
 		
 		// Xuat Thong Tin
-	char *hoten, *sdt, *diachi;
-	hoten = strtok(read, ":");
-	sdt = strtok(NULL, ":");
-	diachi = strtok(NULL, ":");
-	printf("Thong tin khach hang: \%s\t%s\t%s\n", hoten+1, sdt, diachi);
-	fgets(read, max, f);
-	
-	do{
-		char *stt, *tenMon, *soLuong, *gia;
-		stt = strtok(read, ":");
-		tenMon = strtok(NULL, ":");
-		soLuong = strtok(NULL, ":");
-		gia = strtok(NULL, ":");
-		printf("%s\t%s\t%s\t%s", stt+1, tenMon, soLuong, gia);
+		char *hoten, *sdt, *diachi;
+		hoten = strtok(read, ":");
+		sdt = strtok(NULL, ":");
+		diachi = strtok(NULL, ":");
+		printf("Thong tin khach hang: \%s\t%s\t%s\n", hoten+1, sdt, diachi);
 		fgets(read, max, f);
-	}while(read[0] != '+');
 	
-	printf("\nTong so tien: %s\n", read+1);
-	printf("=====================================\n");
+		do{
+			char *stt, *tenMon, *soLuong, *gia;
+			stt = strtok(read, ":");
+			tenMon = strtok(NULL, ":");
+			soLuong = strtok(NULL, ":");
+			gia = strtok(NULL, ":");
+			printf("%s\t%s\t%s\t%s", stt+1, tenMon, soLuong, gia);
+			fgets(read, max, f);
+		}while(read[0] != '+');
+	
+		printf("\nTong so tien: %s\n", read+1);
+		printf("=====================================\n");
 	}while(fgets(read, max, f) != NULL);
 	
 	system("pause");
@@ -398,5 +411,93 @@ void Doanh_Thu(char DiaChiGhiFile[max]){
 				break;
 		}
 	}while(t != 0);
+}
+
+void Sap_Xep_MENU(){
+	int i, set = 0;
+	
+	char ten[max];
+	strcpy(ten, monAn.tenMon[SoMonAn-1]);
+	int stt = monAn.stt[SoMonAn-1];
+	int gia = monAn.giaTien[SoMonAn-1];
+	int loai = monAn.loai[SoMonAn-1];
+	
+	for(i = SoMonAn-1; i >= 0; i--){
+		strcpy(monAn.tenMon[i], monAn.tenMon[i-1]);
+		monAn.stt[i] = i+1;
+		monAn.giaTien[i] = monAn.giaTien[i-1];
+		monAn.loai[i] = monAn.loai[i-1];
+		if(monAn.loai[i-2] == loai){
+			strcpy(monAn.tenMon[i-2], ten);
+			monAn.stt[i-2] = i-1;
+			monAn.giaTien[i-2] = gia;
+			monAn.loai[i-2] = loai;
+			break;
+		}
+	}
+	
+}
+
+void Them_Mon(){
+	
+	int i;
+	printf("Cac loai mon:\n");
+	for(i = 0; i < SoLoaiMon; i++){
+		printf("\t%d.\t%s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+	}
+	
+	printf("Nhap loai mon:");
+	scanf("%d",&monAn.loai[SoMonAn]);
+	monAn.stt[SoMonAn]=1+SoMonAn;
+	printf("Nhap ten mon: ");
+	fflush(stdin);
+	gets(monAn.tenMon[SoMonAn]);
+	fflush(stdin);
+	printf("Nhap gia: ");
+	scanf("%d", &monAn.giaTien[SoMonAn]);
+	
+	SoMonAn++;
+	
+	Sap_Xep_MENU();
+	
+	FILE *f;
+	f = fopen(path_Menu, "w");
+	fprintf(f, "%d\n", SoMonAn);
+	for(i = 0; i < SoMonAn; i++){
+		fprintf(f, "%d %s %d %d\n", monAn.stt[i], monAn.tenMon[i], monAn.giaTien[i], monAn.loai[i]);
+	}
+	fclose(f);
+	
+	In_MENU();
+	system("pause");
+}
+
+void Xoa_Mon(){
+	In_MENU();
+	
+	int i, vitri, set = 0;
+	printf("Nhap vi tri mon muon xoa: ");
+	scanf("%d", &vitri);
+	
+	FILE *f;
+	f = fopen(path_Menu, "w");
+	fprintf(f, "%d\n", SoMonAn-1);
+	for(i = 0; i < SoMonAn-1; i++){
+		if(i >= vitri-1){
+			strcpy(monAn.tenMon[i], monAn.tenMon[i+1]);
+			monAn.stt[i] = i+1;
+			monAn.giaTien[i] = monAn.giaTien[i+1];
+			monAn.loai[i] = monAn.loai[i+1];
+			fprintf(f, "%d %s %d %d\n", monAn.stt[i], monAn.tenMon[i], monAn.giaTien[i], monAn.loai[i]);
+		}
+		else{
+			fprintf(f, "%d %s %d %d\n", monAn.stt[i], monAn.tenMon[i], monAn.giaTien[i], monAn.loai[i]);
+		}
+	}
+	SoMonAn--;
+	
+	In_MENU();
+	system("pause");
+	fclose(f);
 }
 

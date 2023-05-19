@@ -2,3 +2,5 @@
 02-01-2023 123h123 780000 D:\\C\\PBBL1\\HoaDon\\02-01-2023_Ma_giao_dich_123h123.txt
 1 1 0 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
 1 1 0 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
+2 2 0 D:\\C\\PBBL1\\HoaDon\\2_Ma_giao_dich_2.txt
+1 1 0 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
