@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #define max 100
-#define path_Menu "D:\\C\\PBBL1\\Menu.txt"
-#define path_Loai_Mon "D:\\C\\PBBL1\\LoaiMon.txt"
+#define path_Menu "D:\\C\\PBBL1\\Menu.txt"  // Duong dan den file menu
+#define path_Loai_Mon "D:\\C\\PBBL1\\LoaiMon.txt"  // Duong dan den file phan loai mon an
+#define path_Hoa_Don "D:\\C\\PBBL1\\HoaDon\\"  // Duong dan den file luu hoa don
+#define path_Hoa_Don_Dung_De_Ghi "D:\\\\C\\\\PBBL1\\\\HoaDon\\\\" // Su dung chuoi nay de ghi vao file Doanh thu, luu y "\\\\"
+#define path_Dia_Chi_Doanh_Thu "D:\\C\\PBBL1\\Doanh_Thu\\Doanh_Thu.txt"  // Duong dan den file luu doanh thu
 
 struct MonAn{
 	char tenMon[max][max];
 	int stt[max];
-	int soLuong[max];
 	int giaTien[max];
 	int loai[max];
 } ; 
@@ -24,6 +26,102 @@ int SoLoaiMon;
 long Doanh_thu_cua_ngay = 0;
 char mdd[max], ngay[max];
 int So_Hoa_Don = 0;
+
+// HAM DOC DU LIEU MENU, LOAI MON
+void Doc_MENU();
+void Doc_Loai_Mon();
+
+// HAM THAO TAC VOI DAT HANG VA IN HOA DON
+void In_MENU();
+long Dat_Mon(FILE *f);
+long Ghi_Hoa_Don(char Dia_Chi_File_Hoa_Don[max]);
+void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri);
+void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]);
+
+// HAM THAO TAC DOANH THU TIM KIEM QUAN LY QUANH THU
+void In_Doanh_Thu(char Ngay[][15],  char MDD[][10], char Doanh_Thu[][15], int n);
+void Tim_Kiem_Ngay(char Ngay[][15], char Dia_Chi_File[][max], char Doanh_Thu[][15], int n);
+void Doanh_Thu(char DiaChiGhiFile[max]);
+
+int main(){ //////////////////////////////////////////////////////////////////////////main
+	Doc_MENU();
+	Doc_Loai_Mon();
+	
+	printf("Bat dau ngay lam viec!!!\n");
+	printf("Nhap ngay lam viec (vd: 01-01-2023): "); gets(ngay);
+	printf("Nhap ma dao dich cua ngay lam viec de bat dau: "); gets(mdd);
+	system("cls");
+	
+	char DiaChiFileHoaDon[max] = path_Hoa_Don;  // Duong dan den file hoa don
+	
+	strcat(DiaChiFileHoaDon, ngay);
+	strcat(DiaChiFileHoaDon, "_Ma_giao_dich_");
+	strcat(DiaChiFileHoaDon, mdd);
+	strcat(DiaChiFileHoaDon, ".txt");
+	
+	char GhiDiaChiFile[max] = path_Hoa_Don_Dung_De_Ghi;  // Chuoi de ghi duong dan den file hoa don vao file Doanh thu
+	
+	strcat(GhiDiaChiFile, ngay);
+	strcat(GhiDiaChiFile, "_Ma_giao_dich_");
+	strcat(GhiDiaChiFile, mdd);
+	strcat(GhiDiaChiFile, ".txt");
+	
+	int t1; 
+	char Mdd2[max];
+	
+	do{
+		
+		printf("Ma dao dich cua ngay: %s\n", mdd);
+		printf("1. Dat do an\n");
+		printf("2. Xem tat ca cac hoa don trong ngay\n");
+		printf("3. Xem tong doanh thu trong ngay\n");
+		printf("4. Thao tac voi doanh thu\n");
+		printf("5. Them mon\n");
+		printf("0. Thoat\n");
+		printf("Nhap thoa tac:"); scanf("%d", &t1);
+		system("cls"); 
+		switch(t1){
+			case 1:
+				Doanh_thu_cua_ngay += Ghi_Hoa_Don(DiaChiFileHoaDon); 
+				break;
+			case 2:
+				Tat_Ca_Hoa_Don_Cua_Ngay(DiaChiFileHoaDon); 
+				break;
+			case 3:
+				printf("Tong doanh thu hien tai trong ngay: %ld\n\n", Doanh_thu_cua_ngay); 
+				system("pause");
+				break;	
+			case 4:
+				Doanh_Thu(path_Dia_Chi_Doanh_Thu); 
+				break;
+			case 5:
+				Them_Mon();
+				break;
+			case 0: 
+				printf("Nhap ma giao dich: ");
+				fflush(stdin);
+				gets(Mdd2);
+				if(strcmp(Mdd2,mdd)!=0){
+					printf("Ma giao dich khong dung!!!\n");
+					system("pause");
+					system("cls");
+				}
+				break;
+			default:
+				printf("Thao tac khong hop le!\n");
+				printf("Moi ban chon lai!\n");
+				system("pause");
+				system("cls");
+		}
+		system("cls");
+	}while(strcmp(Mdd2, mdd) != 0);
+	
+	FILE *h;
+	h = fopen(path_Dia_Chi_Doanh_Thu, "a");
+	fprintf(h, "%s %s %ld %s\n",ngay, mdd, Doanh_thu_cua_ngay, GhiDiaChiFile);
+	fclose(h);
+	
+}
 
 void Doc_MENU(){
 	
@@ -62,69 +160,6 @@ void Doc_Loai_Mon(){
 	fclose(f);
 }
 
-void In_MENU();
-long Dat_Mon(FILE *f);
-long Ghi_Hoa_Don(char Dia_Chi_File_Hoa_Don[max]);
-void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri);
-
-void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]){
-	FILE *f;
-	f = fopen(Dia_Chi_File_Hoa_Don, "r");
-	
-	char read[max];
-	int dem = 0;
-	fgets(read, max, f);
-	do{ // chuyen con tro den vi tri hoa don can xuat
-		
-		// Xuat Thong Tin
-	char *hoten, *sdt, *diachi;
-	hoten = strtok(read, ":");
-	sdt = strtok(NULL, ":");
-	diachi = strtok(NULL, ":");
-	printf("Thong tin khach hang: \%s\t%s\t%s\n", hoten+1, sdt, diachi);
-	fgets(read, max, f);
-	
-	do{
-		char *stt, *tenMon, *soLuong, *gia;
-		stt = strtok(read, ":");
-		tenMon = strtok(NULL, ":");
-		soLuong = strtok(NULL, ":");
-		gia = strtok(NULL, ":");
-		printf("%s\t%s\t%s\t%s", stt+1, tenMon, soLuong, gia);
-		fgets(read, max, f);
-	}while(read[0] != '+');
-	
-	printf("\nTong so tien: %s\n", read+1);
-	printf("=====================================\n");
-	}while(fgets(read, max, f) != NULL);
-	
-	printf("TONG DOANH THU HIEN TAI: %d", Doanh_thu_cua_ngay);
-	
-	fclose(f);
-}
-
-int main(){ //////////////////////////////////////////////////////////////////////////main
-	Doc_MENU();
-	Doc_Loai_Mon();
-	In_MENU();
-	
-	printf("Bat dau ngay lam viec!!!\n");
-	printf("Nhap ngay lam viec (vd: 01-01-2023): "); gets(ngay);
-	printf("Nhap ma dao dich cua ngay lam viec de bat dau: "); gets(mdd);
-	system("cls");
-	
-	char DiaChiGhiFile[max] = "D:\\C\\PBBL1\\HoaDon\\";
-	
-	strcat(DiaChiGhiFile, ngay);
-	strcat(DiaChiGhiFile, "_Ma_giao_dich_");
-	strcat(DiaChiGhiFile, mdd);
-	strcat(DiaChiGhiFile, ".txt");
-	
-	Tat_Ca_Hoa_Don_Cua_Ngay(DiaChiGhiFile);
-	//Doanh_thu_cua_ngay += Ghi_Hoa_Don(DiaChiGhiFile);
-	//Xuat_Hoa_Don(DiaChiGhiFile, 3);
-	//printf("%ld", Doanh_thu_cua_ngay);
-}
 
 void In_MENU(){
 	int i, j;
@@ -134,7 +169,7 @@ void In_MENU(){
 		printf("\n\t%s\n", loaiMon.tenLoai[i]);
 		for(j = 0; j < SoMonAn; j++){
 			if(monAn.loai[j] == loaiMon.loai[i]){
-				printf("%-2d.%-20s%-7dVND\n", monAn.stt[j], monAn.tenMon[j], monAn.giaTien[j]);
+				printf("%d.%-20s%-7dVND\n", monAn.stt[j], monAn.tenMon[j], monAn.giaTien[j]);
 			}
 		}
 	}
@@ -230,5 +265,138 @@ void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri){
 	printf("\nTong so tien: %s\n", read+1);
 	
 	fclose(f);
+}
+void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]){
+	FILE *f;
+	f = fopen(Dia_Chi_File_Hoa_Don, "r");
+	
+	char read[max];
+	int dem = 0;
+	fgets(read, max, f);
+	do{ // chuyen con tro den vi tri hoa don can xuat
+		
+		// Xuat Thong Tin
+	char *hoten, *sdt, *diachi;
+	hoten = strtok(read, ":");
+	sdt = strtok(NULL, ":");
+	diachi = strtok(NULL, ":");
+	printf("Thong tin khach hang: \%s\t%s\t%s\n", hoten+1, sdt, diachi);
+	fgets(read, max, f);
+	
+	do{
+		char *stt, *tenMon, *soLuong, *gia;
+		stt = strtok(read, ":");
+		tenMon = strtok(NULL, ":");
+		soLuong = strtok(NULL, ":");
+		gia = strtok(NULL, ":");
+		printf("%s\t%s\t%s\t%s", stt+1, tenMon, soLuong, gia);
+		fgets(read, max, f);
+	}while(read[0] != '+');
+	
+	printf("\nTong so tien: %s\n", read+1);
+	printf("=====================================\n");
+	}while(fgets(read, max, f) != NULL);
+	
+	system("pause");
+	system("cls");
+	
+	fclose(f);
+}
+
+
+void In_Doanh_Thu(char Ngay[][15],  char MDD[][10], char Doanh_Thu[][15], int n){
+	system("cls");
+	int i;
+	printf("======================= TONG DOANH THU ====================\n");
+	printf("Ngay\t\t\t Ma giao dich\t\t Doanh thu\n");
+	for(i = 0; i < n; i++){
+		printf("%-25s%-24s%s\n", Ngay[i], MDD[i], Doanh_Thu[i]);
+	}
+	
+	char k;
+	printf("Nhan phim ENTER de tiep tuc!!");
+	fflush(stdin);
+	scanf("%c", &k);
+	system("cls");
+}
+
+void Tim_Kiem_Ngay(char Ngay[][15], char Dia_Chi_File[][max], char Doanh_Thu[][15], int n){
+	system("cls");
+	char ngay[15];
+	printf("Nhap ngay: "); 
+	fflush(stdin);
+	scanf("%s", &ngay);
+	system("cls");
+	
+	int i,j=0;
+	
+	for(i = 0; i < n; i++){
+		if(strcmp(Ngay[i], ngay) == 0){
+			char a[max];
+			while(1 == 1){
+				
+				if(Dia_Chi_File[i][j] == '\n'){
+					a[j] = '\0';
+					break;
+				}
+				a[j] = Dia_Chi_File[i][j];
+				j++;
+			}
+			printf("\nTONG DOANH THU: %s\n\n", Doanh_Thu[i]);
+			Tat_Ca_Hoa_Don_Cua_Ngay(a);
+			
+			break;
+			
+	
+		}
+	}
+	system("cls");
+}
+
+void Doanh_Thu(char DiaChiGhiFile[max]){
+	int count = 0;
+	char Doc[max];
+	char Ngay[1000][15];
+	char MDD[1000][10];
+	char Doanh_Thu[1000][15];
+	char Dia_Chi_File[1000][max];
+	
+	FILE *k;
+	k = fopen(DiaChiGhiFile, "r");
+	while(fgets(Doc, max, k) != NULL){ // TACH CAC SO LIEU NHU (NGAY LAM VIEC, MA GIAO DICH, DOANH THU CUA NGAY) DE THUC HIEN CAC THAO TAC KHAC
+		char * p;
+		p = strtok(Doc, " ");
+		strcpy(Ngay[count], p);
+    	p = strtok(NULL, " ");
+		strcpy(MDD[count], p);
+		p = strtok(NULL, " ");
+		strcpy(Doanh_Thu[count], p);
+		p = strtok(NULL, " ");
+		strcpy(Dia_Chi_File[count], p);
+		count++;
+	} 
+	fclose(k);
+	
+	int t; 
+	
+	do{
+		printf("1. In tat ca doanh thu\n");
+		printf("2. In tat ca hoa don cua ngay\n"); 
+		printf("0. Thoat\n");
+		printf("Nhap thoa tac:"); scanf("%d", &t);
+		 
+		switch(t){
+			case 1:
+				In_Doanh_Thu(Ngay, MDD, Doanh_Thu, count);
+				break;
+			case 2:
+				Tim_Kiem_Ngay(Ngay, Dia_Chi_File, Doanh_Thu, count);
+				break;
+			
+			case 0: 
+				system("cls");
+				break;
+		}
+	}while(t != 0);
 }
 
