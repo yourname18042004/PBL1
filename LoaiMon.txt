@@ -1,4 +1,6 @@
-3
+5
 1 Khai_vi
 2 Lau
 3 Do_uong
+4 kem
+5 hai

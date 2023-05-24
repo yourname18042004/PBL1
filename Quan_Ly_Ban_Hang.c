@@ -47,6 +47,8 @@ void Doanh_Thu(char DiaChiGhiFile[max]);
 void Them_Mon();
 void Sap_Xep_MENU();
 void Xoa_Mon();
+void ThemXoa_Loai();
+
 
 int main(){ //////////////////////////////////////////////////////////////////////////main
 	Doc_MENU();
@@ -83,6 +85,7 @@ int main(){ ////////////////////////////////////////////////////////////////////
 		printf("4. Thao tac voi doanh thu\n");
 		printf("5. Them mon\n");
 		printf("6. Xoa mon\n");
+		printf("7. Them or xoa loai\n");
 		printf("0. Thoat\n");
 		printf("Nhap thoa tac:"); scanf("%d", &t1);
 		system("cls"); 
@@ -105,6 +108,9 @@ int main(){ ////////////////////////////////////////////////////////////////////
 				break;
 			case 6:
 				Xoa_Mon();
+				break;
+			case 7:
+				ThemXoa_Loai();
 				break;
 			case 0: 
 				printf("Nhap ma giao dich: ");
@@ -416,26 +422,24 @@ void Doanh_Thu(char DiaChiGhiFile[max]){
 void Sap_Xep_MENU(){
 	int i, set = 0;
 	
-	char ten[max];
-	strcpy(ten, monAn.tenMon[SoMonAn-1]);
+	char ten[max]; strcpy(ten, monAn.tenMon[SoMonAn-1]);
 	int stt = monAn.stt[SoMonAn-1];
 	int gia = monAn.giaTien[SoMonAn-1];
 	int loai = monAn.loai[SoMonAn-1];
 	
 	for(i = SoMonAn-1; i >= 0; i--){
+		if(loai >= monAn.loai[i-1]){
+			strcpy(monAn.tenMon[i], ten);
+			monAn.stt[i] = i+1;
+			monAn.giaTien[i] = gia;
+			monAn.loai[i] = loai;
+			break;
+		}
 		strcpy(monAn.tenMon[i], monAn.tenMon[i-1]);
 		monAn.stt[i] = i+1;
 		monAn.giaTien[i] = monAn.giaTien[i-1];
 		monAn.loai[i] = monAn.loai[i-1];
-		if(monAn.loai[i-2] == loai){
-			strcpy(monAn.tenMon[i-2], ten);
-			monAn.stt[i-2] = i-1;
-			monAn.giaTien[i-2] = gia;
-			monAn.loai[i-2] = loai;
-			break;
-		}
 	}
-	
 }
 
 void Them_Mon(){
@@ -495,9 +499,74 @@ void Xoa_Mon(){
 		}
 	}
 	SoMonAn--;
-	
 	In_MENU();
 	system("pause");
 	fclose(f);
 }
 
+void ThemXoa_Loai(){
+	FILE *f;
+	f = fopen(path_Loai_Mon, "r");
+	if(f == NULL){
+		printf("khong doc duoc tep");
+	}
+	fscanf(f, "%d", &SoLoaiMon);
+	int i;
+	for(i = 0; i < SoLoaiMon; i++){
+		fscanf(f, "%d", &loaiMon.loai[i] );
+		fscanf(f, "%s", &loaiMon.tenLoai[i]);
+	}
+	fclose(f);
+	int key, vitri;
+	printf("1.Them loai.\n");
+	printf("2.Xoa loai.\n");
+	printf("Nhap thao tac: ");
+	scanf("%d",&key);
+	switch(key){
+		case 1:
+			printf("So loai mon hien tai: %d\n",SoLoaiMon);
+			printf("Cac loai mon:\n");
+			for(i = 0; i < SoLoaiMon; i++){
+			printf("\t%d.\t%s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+			}
+			loaiMon.loai[SoLoaiMon]=1+SoLoaiMon;
+			printf("Nhap ten loai mon can them: ");
+			fflush(stdin);
+			gets(loaiMon.tenLoai[SoLoaiMon]);
+			SoLoaiMon++;
+			
+			f = fopen(path_Loai_Mon, "w");
+			fprintf(f,"%d\n",SoLoaiMon);
+			for(i = 0; i < SoLoaiMon; i++){
+				fprintf(f, "%d %s\n",loaiMon.loai[i],loaiMon.tenLoai[i] );
+			}	
+		break;
+		case 2:
+			printf("So loai mon hien tai: %d\n",SoLoaiMon);
+			printf("Cac loai mon:\n");
+			for(i = 0; i < SoLoaiMon; i++){
+				printf("\t%d.\t%s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+				}
+			printf("Nhap vi tri muon xoa:");
+			scanf("%d",&vitri);
+			if(vitri<=0 || vitri>SoLoaiMon){
+				printf("Thao tac khong hop le!");
+				system("pause");
+				break;
+				}
+			
+			f = fopen(path_Loai_Mon, "w");
+			fprintf(f,"%d\n", SoLoaiMon-1);
+			for(i=0; i < SoLoaiMon-1;i++ ){
+				if(i>= vitri-1){
+				loaiMon.loai[i] = i+1;
+				strcpy(loaiMon.tenLoai[i], loaiMon.tenLoai[i+1]);
+				fprintf(f, "%d %s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+			}
+			else{
+				fprintf(f, "%d %s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+			}
+		}
+	}
+	fclose(f);
+}
