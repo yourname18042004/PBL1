@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #define max 100
-#define path_Menu "D:\\C\\PBBL1\\Menu.txt"  // Duong dan den file menu
+#define path_Menu "D:\\C\\PBBL1\\Menu.txt\n"  // Duong dan den file menu
 #define path_Loai_Mon "D:\\C\\PBBL1\\LoaiMon.txt"  // Duong dan den file phan loai mon an
 #define path_Hoa_Don "D:\\C\\PBBL1\\HoaDon\\"  // Duong dan den file luu hoa don
 #define path_Hoa_Don_Dung_De_Ghi "D:\\\\C\\\\PBBL1\\\\HoaDon\\\\" // Su dung chuoi nay de ghi vao file Doanh thu, luu y "\\\\"
@@ -21,35 +21,50 @@ struct LoaiMon{
 
 struct MonAn monAn;
 struct LoaiMon loaiMon;
-int SoMonAn;
-int SoLoaiMon;
-long Doanh_thu_cua_ngay = 0;
+int SoMonAn; // TONG SO MON AN CO TRONG MENU
+int SoLoaiMon; // TONG SO LOAI MON AN 
+long Doanh_thu_cua_ngay = 0; // DOANH THU CUA NGAY
+int So_Hoa_Don = 0; // SO DON DA BAN DUOC TRONG NGAY
 char mdd[max], ngay[max];
-int So_Hoa_Don = 0;
 
-// HAM DOC DU LIEU MENU, LOAI MON
+
+/* 
+	HAM DOC DU LIEU MENU, LOAI MON TAT CA CAC DU LIEU DUOC LUU VAO STRUCT MonAn, LoaiMon DE SU DUNG 
+ 	CHO CAC THAO TAC CUA CHUONG TRINH, CHINH SUA, THAY DOI DU LIEU, CUOI CHUONG TRINH SE DUOC LUU 
+ 	LAI SU DUNG CHO LAN SAU 
+*/
 void Doc_MENU();
 void Doc_Loai_Mon();
 
-// HAM THAO TAC VOI DAT HANG VA IN HOA DON
+/*
+	HAM THAO TAC VOI DAT HANG VA IN HOA DON
+*/
 void In_MENU();
-long Dat_Mon(FILE *f);
-long Ghi_Hoa_Don(char Dia_Chi_File_Hoa_Don[max]);
-void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri);
-void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]);
+long Dat_Mon(FILE *f); /* THAO TAC DAT DO AN, TINH TOAN TRA VE GIA TRI CUA TONG HOA DON, 
+				LUU TAT CA CAC THONG TIN CUA KHACH HANG VAO FILE HOA DON CUA NGAY HIEN TAI*/
+void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri); /* XUAT HOA DON CUA KHACH HANH SAU KHI DAT HANG*/
+long Ghi_Hoa_Don(char Dia_Chi_File_Hoa_Don[max]); /* THUC HIEN THAO TAC DAT_MON(), XUAT_HOA_DON()
+				 VA LAY GIA TRI TRA VE CUA DAT_MON() CONG VAO TONG DOANH THU CUA NGAY*/
+void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]); /* IN TAT CA THONG TIN CAC HOA DON TRONG NGAY*/
 
-// HAM THAO TAC DOANH THU TIM KIEM QUAN LY QUANH THU
-void In_Doanh_Thu(char Ngay[][15],  char MDD[][10], char Doanh_Thu[][15], int n);
-void Tim_Kiem_Ngay(char Ngay[][15], char Dia_Chi_File[][max], char Doanh_Thu[][15], int n);
-void Doanh_Thu(char DiaChiGhiFile[max]);
+/*
+	HAM THAO TAC DOANH THU TIM KIEM QUAN LY QUANH THU
+*/
+void In_Doanh_Thu(char Ngay[][15],  char MDD[][10], char Doanh_Thu[][15], int n); /* IN TAT CA NGAY, MA GIAO DICH, VA DOANH THU CUA NAGY DO*/
+void Tim_Kiem_Ngay(char Ngay[][15], char Dia_Chi_File[][max], char Doanh_Thu[][15], int n); /* TIM KIEM VA IN TAT CA THONG TIN CAC HOA DON CUA NGAY DO */
+void Doanh_Thu(char DiaChiGhiFile[max]); /* DOC DU LIEU CUA FILE DOANH THU PHAN TICH CAC DU LIEU DE THUC HIEN CAC THAO TAC In_Doanh_Thu(), Tim_Kiem_Ngay() */
 
-// HAM THAO TAC VOI MON AN, THEM MON, XOA MON
-void Them_Mon();
-void Sap_Xep_MENU();
-void Xoa_Mon();
-void ThemXoa_Loai();
+/* 
+	HAM THAO TAC VOI MON AN, THEM MON, XOA MON
+*/
+void Them_Mon();  /* THEM MON MOI VAO CUOI MANG SONG SONG*/
+void Sap_Xep_MENU();  /* SAP XEP MON VUA THEM VAO VI TRI THICH HOP*/
+void Xoa_Mon(); /* XOA MOT MON TRONG MENU*/
+void Them_Xoa_Loai(); /*THEM XOA LOAI MON*/
 
-// GHI DU LIEU VAO FILE MENU, FILE LOAI MON
+/* 
+	GHI DU LIEU TRO LAI VAO FILE MENU, FILE LOAI MON
+*/
 void Ghi_MENU();
 void Ghi_Loai_Mon();
 
@@ -90,7 +105,7 @@ int main(){ ////////////////////////////////////////////////////////////////////
 		printf("6. Xoa mon\n");
 		printf("7. Them or xoa loai\n");
 		printf("0. Thoat\n");
-		printf("Nhap thoa tac:"); scanf("%d", &t1);
+		printf("Nhap thoa tac:"); scanf("%d", &t1); fflush(stdin);
 		system("cls"); 
 		switch(t1){
 			case 1:
@@ -113,7 +128,7 @@ int main(){ ////////////////////////////////////////////////////////////////////
 				Xoa_Mon();
 				break;
 			case 7:
-				ThemXoa_Loai();
+				Them_Xoa_Loai();
 				break;
 			case 0: 
 				printf("Nhap ma giao dich: ");
@@ -144,7 +159,6 @@ int main(){ ////////////////////////////////////////////////////////////////////
 }
 
 void Doc_MENU(){
-	
 	FILE *f;
 	f = fopen(path_Menu, "r");
 	if(f == NULL){
@@ -213,7 +227,7 @@ long Dat_Mon(FILE *f){
 	
 	int count =  0; 
 	int set;
-	int tongtien=0;
+	int tongtien = 0;
 	
 	do{
 		count++;
@@ -297,7 +311,7 @@ void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]){
 		system("pause");
 		return;
 	}
-	do{ // chuyen con tro den vi tri hoa don can xuat
+	do{ 
 		
 		// Xuat Thong Tin
 		char *hoten, *sdt, *diachi;
@@ -337,10 +351,7 @@ void In_Doanh_Thu(char Ngay[][15],  char MDD[][10], char Doanh_Thu[][15], int n)
 		printf("%-25s%-24s%s\n", Ngay[i], MDD[i], Doanh_Thu[i]);
 	}
 	
-	char k;
-	printf("Nhan phim ENTER de tiep tuc!!");
-	fflush(stdin);
-	scanf("%c", &k);
+	system("pause");
 	system("cls");
 }
 
@@ -356,22 +367,18 @@ void Tim_Kiem_Ngay(char Ngay[][15], char Dia_Chi_File[][max], char Doanh_Thu[][1
 	
 	for(i = 0; i < n; i++){
 		if(strcmp(Ngay[i], ngay) == 0){
-			char a[max];
+			char dia_chi[max];
 			while(1 == 1){
-				
 				if(Dia_Chi_File[i][j] == '\n'){
-					a[j] = '\0';
+					dia_chi[j] = '\0';
 					break;
 				}
-				a[j] = Dia_Chi_File[i][j];
+				dia_chi[j] = Dia_Chi_File[i][j];
 				j++;
 			}
 			printf("\nTONG DOANH THU: %s\n\n", Doanh_Thu[i]);
-			Tat_Ca_Hoa_Don_Cua_Ngay(a);
-			
+			Tat_Ca_Hoa_Don_Cua_Ngay(dia_chi);
 			break;
-			
-	
 		}
 	}
 	system("cls");
@@ -495,7 +502,7 @@ void Xoa_Mon(){
 	system("pause");
 }
 
-void ThemXoa_Loai(){
+void Them_Xoa_Loai(){
 	int i,vitri;
 	char key;
 	printf("1.Them loai.\n");
