@@ -131,7 +131,8 @@ int main(){ ////////////////////////////////////////////////////////////////////
 				Them_Xoa_Loai();
 				break;
 			case 0: 
-				printf("Nhap ma giao dich: ");
+				printf("Ma giao dich cua ngay: %s\n", mdd);
+				printf("Nhap ma giao dich de thoat chuong trinh: ");
 				fflush(stdin);
 				gets(Mdd2);
 				if(strcmp(Mdd2,mdd)!=0){
@@ -196,17 +197,24 @@ void Doc_Loai_Mon(){
 
 
 void In_MENU(){
-	int i, j;
-	printf("=================== MENU ====================\n");
+	int i, j, h, k = 60;
+	for(h = 0; h <(k/2)-2; h++) printf("="); printf(" MENU "); for(h = 0; h <(k/2)-2; h++) printf("="); printf("\n");
+	printf("| %7s | %28s | %13s     |\n", "STT", "Mon an", "Gia");
+	printf("|"); for(h = 0; h < k; h++) printf("_"); printf("|\n");
+	
 	for(i = 0; i < SoLoaiMon; i++){
-		printf("\n\t%s\n", loaiMon.tenLoai[i]);
+		printf("|"); for(h = 0; h < k; h++) printf("_"); printf("|\n");
+		printf("|"); for(h = 0; h < k; h++) printf(" "); printf("|\n");
+		printf("|%30s                              |\n", loaiMon.tenLoai[i]);
+		printf("|"); for(h = 0; h < k; h++) printf("_"); printf("|\n");
 		for(j = 0; j < SoMonAn; j++){
 			if(monAn.loai[j] == loaiMon.loai[i]){
-				printf("%d.%-20s%-7dVND\n", monAn.stt[j], monAn.tenMon[j], monAn.giaTien[j]);
+				printf("| %7d | %28s | %10d  %4s  |\n", monAn.stt[j], monAn.tenMon[j], monAn.giaTien[j], "VND");
 			}
 		}
 	}
-	printf("===================*****======================\n");
+	printf("|"); for(h = 0; h < k; h++) printf(" "); printf("|\n");
+	for(h = 0; h <(k/2)-2; h++) printf("="); printf("******"); for(h = 0; h <(k/2)-2; h++) printf("="); printf("\n");
 }
 
 long Dat_Mon(FILE *f){
@@ -280,27 +288,39 @@ void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri){
 	sdt = strtok(NULL, ":");
 	diachi = strtok(NULL, ":");
 	
-	printf("\n=====================================\n");
-	printf("             HOA DON\n");
-	printf("=====================================\n");
-	printf("Ho ten khach hang: %s\n", hoten+1);
-	printf("So dien thoai: %s\n", sdt);
-	printf("Dia chi: %s\n", diachi);
+	int i, n = 60;
+	for(i = 0; i < n; i++) printf("="); printf("\n");
+	printf("|"); for(i = 0; i < n/2-4; i++) printf(" "); printf("HOA DON"); for(i = 0; i < n/2-5; i++) printf(" "); printf("|\n");
+	printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
+	printf("|	Ho ten khach hang: %-32s|\n", hoten+1);
+	printf("|	So dien thoai: %-36s|\n", sdt);
+	char *k = strstr(diachi, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+	*k = '\0';
+	printf("|	Dia chi: %-42s|\n", diachi);
 	fgets(read, max, f);
 	
-	printf("=====================================\n");
-	printf("STT    ten mon        so luong    gia\n");
+	printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
+	printf("|"); for(i = 0; i < n-2; i++) printf(" "); printf("|\n");
+	printf("|%-3s | %-21s | %-8s | %-16s |\n", "STT", "ten mon", "so luong", "gia");
+	printf("|"); for(i = 0; i < n-2; i++) printf("-"); printf("|\n");
+	
 	do{
 		char *stt, *tenMon, *soLuong, *gia;
 		stt = strtok(read, ":");
 		tenMon = strtok(NULL, ":");
 		soLuong = strtok(NULL, ":");
 		gia = strtok(NULL, ":");
-		printf("%s\t%s\t%s\t%s", stt+1, tenMon, soLuong, gia);
+		char *k = strstr(gia, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+		*k = '\0';
+		printf("|%-3s | %-21s | %-8s | %-12s VND |\n", stt+1, tenMon, soLuong, gia);
 		fgets(read, max, f);
 	}while(read[0] != '+');
-	printf("=====================================\n");
-	printf("\nTong so tien: %s\n", read+1);
+	printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
+	printf("|"); for(i = 0; i < n-2; i++) printf(" "); printf("|\n");
+	char *h = strstr(read, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+	*h = '\0';
+	printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
+	printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
 	
 	fclose(f);
 }
@@ -315,6 +335,8 @@ void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]){
 		system("pause");
 		return;
 	}
+	printf("                       THONG TIN TAT CA CAC HOA DON");
+		
 	do{ 
 		
 		// Xuat Thong Tin
@@ -322,8 +344,21 @@ void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]){
 		hoten = strtok(read, ":");
 		sdt = strtok(NULL, ":");
 		diachi = strtok(NULL, ":");
-		printf("Thong tin khach hang: \%s\t%s\t%s\n", hoten+1, sdt, diachi);
+		printf("\n\nThong tin khach hang thu %d:\n", ++dem);
+		
+		int i, n = 60;
+		printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
+		printf("|	Ho ten khach hang: %-32s|\n", hoten+1);
+		printf("|	So dien thoai: %-36s|\n", sdt);
+		char *k = strstr(diachi, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+		*k = '\0';
+		printf("|	Dia chi: %-42s|\n", diachi);
 		fgets(read, max, f);
+	
+		printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
+		printf("|"); for(i = 0; i < n-2; i++) printf(" "); printf("|\n");
+		printf("|%-3s | %-21s | %-8s | %-16s |\n", "STT", "ten mon", "so luong", "gia");
+		printf("|"); for(i = 0; i < n-2; i++) printf("-"); printf("|\n");
 	
 		do{
 			char *stt, *tenMon, *soLuong, *gia;
@@ -331,12 +366,18 @@ void Tat_Ca_Hoa_Don_Cua_Ngay(char Dia_Chi_File_Hoa_Don[max]){
 			tenMon = strtok(NULL, ":");
 			soLuong = strtok(NULL, ":");
 			gia = strtok(NULL, ":");
-			printf("%s\t%s\t%s\t%s", stt+1, tenMon, soLuong, gia);
+			char *k = strstr(gia, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+			*k = '\0';
+			printf("|%-3s | %-21s | %-8s | %-12s VND |\n", stt+1, tenMon, soLuong, gia);
 			fgets(read, max, f);
 		}while(read[0] != '+');
+		printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
+		printf("|"); for(i = 0; i < n-2; i++) printf(" "); printf("|\n");
+		char *h = strstr(read, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+		*h = '\0';
+		printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
+		printf("|"); for(i = 0; i < n-2; i++) printf("="); printf("|\n");
 	
-		printf("\nTong so tien: %s\n", read+1);
-		printf("=====================================\n");
 	}while(fgets(read, max, f) != NULL);
 	
 	system("pause");

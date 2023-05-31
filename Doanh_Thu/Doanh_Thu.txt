@@ -6,3 +6,6 @@
 1 1 40000 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
 1 1 0 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
 1 1 20000 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
+1 1 720000 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
+1 1 40000 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
+1 1 0 D:\\C\\PBBL1\\HoaDon\\1_Ma_giao_dich_1.txt
