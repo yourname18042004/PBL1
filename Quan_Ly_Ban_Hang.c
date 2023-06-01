@@ -2,11 +2,11 @@
 #include <string.h>
 #include <stdbool.h>
 #define max 100
-#define path_Menu "D:\\C\\PBBL1\\Menu.txt"  // Duong dan den file menu
-#define path_Loai_Mon "D:\\C\\PBBL1\\LoaiMon.txt"  // Duong dan den file phan loai mon an
-#define path_Hoa_Don "D:\\C\\PBBL1\\HoaDon\\"  // Duong dan den file luu hoa don
-#define path_Hoa_Don_Dung_De_Ghi "D:\\\\C\\\\PBBL1\\\\HoaDon\\\\" // Su dung chuoi nay de ghi vao file Doanh thu, luu y "\\\\"
-#define path_Dia_Chi_Doanh_Thu "D:\\C\\PBBL1\\Doanh_Thu\\Doanh_Thu.txt"  // Duong dan den file luu doanh thu
+#define path_Menu "Menu.txt"  // Duong dan den file menu
+#define path_Loai_Mon "LoaiMon.txt"  // Duong dan den file phan loai mon an
+#define path_Hoa_Don "HoaDon\\"  // Duong dan den file luu hoa don
+#define path_Hoa_Don_Dung_De_Ghi "HoaDon\\\\" // Su dung chuoi nay de ghi vao file Doanh thu, luu y "\\\\"
+#define path_Dia_Chi_Doanh_Thu "Doanh_Thu\\Doanh_Thu.txt"  // Duong dan den file luu doanh thu
 
 struct MonAn{
 	char tenMon[max][max];
