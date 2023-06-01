@@ -183,3 +183,9 @@
 -1:Tom_chien_xu:1:40000
 -2:Tom_chien_xu:1:40000
 +80000
+=thanh:1:1
+-1: Tom chien xu:1:40000
++40000
+=thanh:1:1
+-1:Ca noc:1:10000
++10000

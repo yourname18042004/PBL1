@@ -175,7 +175,7 @@ void Doc_MENU(){
 	int i;
 	for(i = 0; i < SoMonAn; i++){
 		fscanf(f, "%d", &monAn.stt[i] );
-		fscanf(f, "%s", &monAn.tenMon[i]);
+		fscanf(f, "%[^\t]", &monAn.tenMon[i]);
 		fscanf(f, "%d", &monAn.giaTien[i]);
 		fscanf(f, "%d", &monAn.loai[i]);
 	}
