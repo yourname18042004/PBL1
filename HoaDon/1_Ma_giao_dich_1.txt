@@ -189,3 +189,19 @@
 =thanh:1:1
 -1:Ca noc:1:10000
 +10000
+=thanh:1:1
+-1: Tom chien xu:1:40000
++40000
+=thanh:1:1
+-1: muc chien gion :1:100000
++100000
+=g:1:1
+-1: Tom chien xu:0:0
++0
+=thanh:1:1
+-1:Tom chien xu:1:40000
+-2:Bia:1:12000
++52000
+=thanh:1:1
+-1:Tom chien xu:1:40000
++40000

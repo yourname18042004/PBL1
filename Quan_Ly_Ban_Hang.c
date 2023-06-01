@@ -169,16 +169,31 @@ void Doc_MENU(){
 	f = fopen(path_Menu, "r");
 	if(f == NULL){
 		printf("khong doc duoc tep");
+	}	
+	char read[max];
+	fgets(read,max,f);
+	SoMonAn=atoi(read);
+	int i=0;
+
+	while(fgets(read,max,f)!=NULL){
+		char *stt, *ten, *gia, *loai;
+		stt = strtok(read, ":");
+		ten = strtok(NULL, ":");
+		gia = strtok(NULL, ":");	
+		loai = strtok(NULL, ":");
+		monAn.stt[i]=atoi(stt);
+		strcpy(monAn.tenMon[i],ten);
+		monAn.giaTien[i]=atoi(gia);
+		monAn.loai[i]=atoi(loai);
+		i++;
 	}
 	
-	fscanf(f, "%d", &SoMonAn);
-	int i;
-	for(i = 0; i < SoMonAn; i++){
-		fscanf(f, "%d", &monAn.stt[i] );
-		fscanf(f, "%[^\t]", &monAn.tenMon[i]);
-		fscanf(f, "%d", &monAn.giaTien[i]);
-		fscanf(f, "%d", &monAn.loai[i]);
-	}
+//	for(i = 0; i < SoMonAn; i++){
+//		fscanf(f, "%d", &monAn.stt[i] );
+//		fscanf(f, "%[^\t]", &monAn.tenMon[i]);
+//		fscanf(f, "%d", &monAn.giaTien[i]);
+//		fscanf(f, "%d", &monAn.loai[i]);
+//	}
 
 	fclose(f);
 }
@@ -189,13 +204,27 @@ void Doc_Loai_Mon(){
 	if(f == NULL){
 		printf("khong doc duoc tep");
 	}
-	
-	fscanf(f, "%d", &SoLoaiMon);
-	int i;
-	for(i = 0; i < SoLoaiMon; i++){
-		fscanf(f, "%d", &loaiMon.loai[i] );
-		fscanf(f, "%s", &loaiMon.tenLoai[i]);
+	char read[max];
+	fgets(read,max,f);
+	SoLoaiMon=atoi(read);
+	int i=0;
+	while(fgets(read,max,f)!=NULL){
+		char *stt, *tenloai;
+		stt= strtok(read,":");
+		tenloai= strtok(NULL,":");
+		char *k = strstr(tenloai, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+		*k = '\0';
+		loaiMon.loai[i]=atoi(stt);
+		strcpy(loaiMon.tenLoai[i],tenloai);
+		i++;
 	}
+//	for(i = 0; i < SoLoaiMon; i++){
+//		fscanf(f, "%d", &loaiMon.loai[i] );
+//		fgets(loaiMon.tenLoai[i],100,f );
+//		char *k = strstr(loaiMon.tenLoai[i], "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
+//		*k = '\0';
+//		
+//	}
 
 	fclose(f);
 }
@@ -209,7 +238,7 @@ void In_MENU(){
 	for(i = 0; i < SoLoaiMon; i++){
 		printf("|"); for(h = 0; h < k; h++) printf("_"); printf("|\n");
 		printf("|"); for(h = 0; h < k; h++) printf(" "); printf("|\n");
-		printf("|%30s                              |\n", loaiMon.tenLoai[i]);
+		printf("|                    %-40s|\n", loaiMon.tenLoai[i]);
 		printf("|"); for(h = 0; h < k; h++) printf("_"); printf("|\n");
 		for(j = 0; j < SoMonAn; j++){
 			if(monAn.loai[j] == loaiMon.loai[i]){
@@ -680,7 +709,7 @@ void Ghi_MENU(){
 	fprintf(f, "%d\n", SoMonAn);
 	int i;
 	for(i = 0; i < SoMonAn; i++){
-		fprintf(f, "%d %s %d %d\n", monAn.stt[i], monAn.tenMon[i], monAn.giaTien[i], monAn.loai[i]);
+		fprintf(f, "%d:%s:%d:%d\n", monAn.stt[i], monAn.tenMon[i], monAn.giaTien[i], monAn.loai[i]);
 	}
 	fclose(f);
 }
@@ -691,7 +720,7 @@ void Ghi_Loai_Mon(){
 	fprintf(f,"%d\n",SoLoaiMon);
 	int i;
 	for(i = 0; i < SoLoaiMon; i++){
-		fprintf(f, "%d %s\n",loaiMon.loai[i],loaiMon.tenLoai[i] );
+		fprintf(f, "%d:%s\n",loaiMon.loai[i],loaiMon.tenLoai[i] );
 	}
 }
 
