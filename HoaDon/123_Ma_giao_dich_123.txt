@@ -1,3 +1,6 @@
 =thanh:123:123
 -1: thit cho cham mam tom cay 7 mon:12:1800000
 +1800000
+=thanh:1:1
+-1:Tom chien xu:51:2040000
++2040000

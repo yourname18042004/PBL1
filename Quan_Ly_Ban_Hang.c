@@ -8,6 +8,7 @@
 #define path_Hoa_Don_Cho_Khach "HoaDonChoKhach\\"  // Duong dan den file luu hoa don in ra cho khach hang
 #define path_Hoa_Don_Dung_De_Ghi "HoaDon\\\\" // Su dung chuoi nay de ghi vao file Doanh thu, luu y "\\\\"
 #define path_Dia_Chi_Doanh_Thu "Doanh_Thu\\Doanh_Thu.txt"  // Duong dan den file luu doanh thu
+#define path_Giam_Gia "Muc_Giam_Gia.txt" // Duong dan den file giam gia
 
 struct MonAn{
 	char tenMon[max][max];
@@ -32,6 +33,9 @@ char mdd[max], ngay[max];
 char HoTen[max];
 char soDT[max];
 char DiaChi[max];
+
+long MucGiamGia;
+int PhanTram;
 
 
 /* 
@@ -67,6 +71,7 @@ void Them_Mon();  /* THEM MON MOI VAO CUOI MANG SONG SONG*/
 void Sap_Xep_MENU();  /* SAP XEP MON VUA THEM VAO VI TRI THICH HOP*/
 void Xoa_Mon(); /* XOA MOT MON TRONG MENU*/
 void Them_Xoa_Loai(); /*THEM XOA LOAI MON*/
+void Chinh_Sua_Mon(); //Ghep 2 ham them xoa mon
 
 /* 
 	GHI DU LIEU TRO LAI VAO FILE MENU, FILE LOAI MON
@@ -76,11 +81,15 @@ void Ghi_Loai_Mon();
 
 // check xem co ki tu trong chuoi hay khong
 bool Check(char a[]);
+void Doc_Giam_Gia();
+void Sua_Doi();
+void Ghi_Giam_Gia();
 
 
 int main(){ //////////////////////////////////////////////////////////////////////////main
 	Doc_MENU();
 	Doc_Loai_Mon();
+	Doc_Giam_Gia();
 	
 	printf("Bat dau ngay lam viec!!!\n");
 	printf("Nhap ngay lam viec (vd: 01-01-2023): "); gets(ngay);
@@ -101,23 +110,33 @@ int main(){ ////////////////////////////////////////////////////////////////////
 	strcat(GhiDiaChiFile, mdd);
 	strcat(GhiDiaChiFile, ".txt");
 	
-	int t1; 
+	char t1[10]; 
 	char Mdd2[max];
-	
+	int t2;
 	do{
 		
-		printf("Ma dao dich cua ngay: %s\n", mdd);
+		printf("Ma dao dich cua ngay: %s\n\n", mdd);
+		printf("\tTiem An ONLINE Da Nang\n\n");
+		if(PhanTram>0 ){
+			
+		printf("Giam gia %d %c Cho don hang lon hon %ld VND\n",PhanTram,37, MucGiamGia);
+		}
 		printf("1. Dat do an\n");
 		printf("2. Xem tat ca cac hoa don trong ngay\n");
 		printf("3. Xem tong doanh thu trong ngay\n");
 		printf("4. Thao tac voi doanh thu\n");
-		printf("5. Them mon\n");
-		printf("6. Xoa mon\n");
-		printf("7. Them hoac xoa loai\n");
-		printf("0. Thoat\n");
-		printf("Nhap thoa tac:"); scanf("%d", &t1); fflush(stdin);
+		printf("5. Chinh sua mon\n");
+		printf("6. Them hoac xoa loai\n");
+		printf("7. Sua giam gia\n");
+		printf("0. Thoat\n\n");
+		printf("Nhap thoa tac:"); scanf("%s", &t1); fflush(stdin);
+		while(!Check(t1)){
+			printf("Thao tac khong hop le!!\n");
+			printf("Nhap lai thao tac: "); gets(t1); fflush(stdin);
+		}
+		t2=atoi(t1);
 		system("cls"); 
-		switch(t1){
+		switch(t2){
 			case 1:
 				Doanh_thu_cua_ngay += Ghi_Hoa_Don(DiaChiFileHoaDon); 
 				break;
@@ -132,13 +151,13 @@ int main(){ ////////////////////////////////////////////////////////////////////
 				Doanh_Thu(path_Dia_Chi_Doanh_Thu); 
 				break;
 			case 5:
-				Them_Mon();
+				Chinh_Sua_Mon();
 				break;
 			case 6:
-				Xoa_Mon();
+				Them_Xoa_Loai();
 				break;
 			case 7:
-				Them_Xoa_Loai();
+				Sua_Doi();
 				break;
 			case 0: 
 				printf("Ma giao dich cua ngay: %s\n", mdd);
@@ -167,6 +186,7 @@ int main(){ ////////////////////////////////////////////////////////////////////
 	
 	Ghi_MENU();
 	Ghi_Loai_Mon();
+	Ghi_Giam_Gia();
 }
 
 void Doc_MENU(){
@@ -216,7 +236,6 @@ void Doc_Loai_Mon(){
 		strcpy(loaiMon.tenLoai[i],tenloai);
 		i++;
 	}
-
 	fclose(f);
 }
 
@@ -287,8 +306,11 @@ long Dat_Mon(FILE *f){
 		
 		printf("\nBan co mon chon mon tiep hay khong (1.co 0.khong): "); scanf("%d", &set); fflush(stdin);
 		
-	}while(set != 0);
+	}while(set != 0);	
+	
+	if(tongtien > MucGiamGia ) tongtien= tongtien - tongtien*(1.0)*PhanTram/100;
 	fprintf(f, "+%d\n",tongtien);
+
 	return tongtien;
 }
 
@@ -533,23 +555,29 @@ void Doanh_Thu(char DiaChiGhiFile[max]){
 	} 
 	fclose(k);
 	
-	int key; 
+	char key[10];
+	int key2;
 	
 	do{
 		printf("1. In tat ca doanh thu\n");
 		printf("2. In tat ca hoa don cua ngay\n"); 
 		printf("0. Thoat\n");
-		printf("Nhap thoa tac:"); scanf("%c", &key); fflush(stdin);
-		 
-		switch(key){
-			case '1':
+		printf("Nhap thoa tac:"); scanf("%s", &key); fflush(stdin);
+		while(!Check(key)){
+		printf("Thao tac khong hop le!!\n");
+		
+		printf("Nhap lai thao tac: "); gets(key); fflush(stdin);
+		}
+		key2=atoi(key);
+		switch(key2){
+			case 1:
 				In_Doanh_Thu(Ngay, MDD, Doanh_Thu, count);
 				break;
-			case '2':
+			case 2:
 				Tim_Kiem_Ngay(Ngay, Dia_Chi_File, Doanh_Thu, count);
 				break;
 			
-			case '0': 
+			case 0: 
 				system("cls");
 				break;
 			default:
@@ -557,7 +585,7 @@ void Doanh_Thu(char DiaChiGhiFile[max]){
 				system("pause");
 				system("cls");
 		}
-	}while(key != '0');
+	}while(key2 != 0);
 }
 
 void Sap_Xep_MENU(){
@@ -585,16 +613,15 @@ void Sap_Xep_MENU(){
 
 void Them_Mon(){
 	
-	int i;
+	int i,set;
 	printf("Cac loai mon:\n");
 	for(i = 0; i < SoLoaiMon; i++){
-		printf("\t%d.\t%s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+		printf("\t%d. %s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
 	}
-	
 	printf("Nhap loai mon:");
 	int loai;
 	scanf("%d",&loai);
-	if(loai < 0 || loai > SoLoaiMon){
+	if(loai <= 0 || loai > SoLoaiMon){
 		printf("Thao tac khong hop le!\n");
 		system("pause");
 		return;
@@ -631,7 +658,7 @@ void Xoa_Mon(){
 	int i, vitri, set = 0;
 	printf("Nhap vi tri mon muon xoa: "); gets(ViTri); fflush(stdin);
 	vitri = atoi(ViTri);
-	if(!Check(ViTri) || vitri < 0 || vitri > SoMonAn){
+	if(!Check(ViTri) || vitri <= 0 || vitri > SoMonAn){
 		printf("Thoa tac khong hop le!\n");
 		system("pause");
 		return;
@@ -643,43 +670,78 @@ void Xoa_Mon(){
 			monAn.giaTien[i] = monAn.giaTien[i+1];
 			monAn.loai[i] = monAn.loai[i+1];
 		}
-		else{
-		}
+	
 	}
 	SoMonAn--;
 	
 	In_MENU();
 	system("pause");
 }
+void Chinh_Sua_Mon(){
+	char a[10];
+	int a1;
+	printf("1. Them mon\n");
+	printf("2. Xoa mon\n");
+	printf("0. Thoat\n");
+	printf("Nhap thao tac: ");
+	gets(a); fflush(stdin);
+	while(!Check(a)){
+		printf("Thao tac khong hop le \n");
+		printf("Nhap lai thao tac: "); gets(a); fflush(stdin);
+	}
+	a1=atoi(a);
+	switch(a1){
+		case 1: 
+			system("cls");
+			Them_Mon();
+			break;
+		case 2:
+			system("cls");
+			Xoa_Mon();
+			break;
+		case 0:
+			break;
+		default:
+			printf("Khong hop le\n");
+			system("pause");
+			break;
+	}
+}
 
 void Them_Xoa_Loai(){
-	int i,vitri;
-	char key, ViTri[4];
+	int i,vitri,key2;
+	char key[10], ViTri[4];
 	printf("1.Them loai.\n");
 	printf("2.Xoa loai.\n");
 	printf("0.Thoat.\n");
 	printf("Nhap thao tac: ");
-	scanf("%c",&key); fflush(stdin);
-	switch(key){
-		case '1':
+	scanf("%s",&key); fflush(stdin);
+	while(!Check(key)){
+		printf("Thao tac khong hop le!!\n");
+		printf("Nhap lai thao tac: "); gets(key); fflush(stdin);
+	}
+	key2=atoi(key);
+	switch(key2){
+		case 1:
 			system("cls");
 			printf("So loai mon hien tai: %d\n",SoLoaiMon);
 			printf("Cac loai mon:\n");
 			for(i = 0; i < SoLoaiMon; i++){
-				printf("\t%d.\t%s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+				printf("\t%d. %s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
 			}
 			loaiMon.loai[SoLoaiMon]=1+SoLoaiMon;
-			printf("Nhap ten loai mon can them: ");
+			printf("Nhap ten loai mon can them:(Nhap 0 de thoat) "); 
 			fflush(stdin);
 			gets(loaiMon.tenLoai[SoLoaiMon]);
+			if(atoi(loaiMon.tenLoai[SoLoaiMon])==0) break;
 			SoLoaiMon++;
 			break;
-		case '2':
+		case 2:
 			system("cls");
 			printf("So loai mon hien tai: %d\n",SoLoaiMon);
 			printf("Cac loai mon:\n");
 			for(i = 0; i < SoLoaiMon; i++){
-				printf("\t%d.\t%s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
+				printf("\t%d. %s\n", loaiMon.loai[i], loaiMon.tenLoai[i]);
 				}
 			printf("Nhap vi tri muon xoa:"); gets(ViTri); fflush(stdin);
 			vitri = atoi(ViTri);
@@ -721,7 +783,7 @@ void Them_Xoa_Loai(){
 			In_MENU();
 			system("pause");
 			break;
-		case '0':
+		case 0:
 			break;
 		default:
 			printf("Thao tac khong hop le!");
@@ -756,5 +818,45 @@ bool Check(char a[]){
 	for(i = 0; i < strlen(a); i++){
 		if(a[i] < '0' || a[i] > '9') return false;
 	}
+	if(strlen(a)==0) return false;
 	return true;
 }
+void Doc_Giam_Gia(){
+	FILE *f;
+	f=fopen(path_Giam_Gia,"r");
+	fscanf(f,"%ld",&MucGiamGia);
+	fscanf(f,"%d",&PhanTram);
+	fclose(f);
+	}
+void Sua_Doi(){
+	char Mucgiamgia[10], Phantram[10];
+	int Mucgiamgia1, Phantram1;
+	printf("Muc giam gia cu la: ");
+	printf("Muc giam: %ld\tPhan tram giam: %d%\n",MucGiamGia,PhanTram);
+	printf("Muc giam gia muon sua: ");
+	gets(Mucgiamgia); fflush(stdin);
+	while(!Check(Mucgiamgia)){
+			printf("NHap khong hop le!!\n");
+			printf("Nhap lai thao tac: "); gets(Mucgiamgia); fflush(stdin);
+		}
+		Mucgiamgia1=atoi(Mucgiamgia);
+	printf("Pham tram giam gia muon sua: ");
+	gets(Phantram);
+	while(!Check(Phantram)){
+			printf("Nhap khong hop le!!\n");
+			printf("Nhap lai thao tac: "); gets(Phantram); fflush(stdin);
+		}
+		Phantram1=atoi(Phantram);
+	fflush(stdin);
+	MucGiamGia = Mucgiamgia1;
+	PhanTram = Phantram1;
+	
+}
+void Ghi_Giam_Gia(){
+	FILE *f;
+	f=fopen(path_Giam_Gia,"w");
+	fprintf(f, "%ld %d", MucGiamGia, PhanTram);
+	fclose(f);
+	}
+	
+
