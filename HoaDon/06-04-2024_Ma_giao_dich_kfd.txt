@@ -1,0 +1,3 @@
+=Nguyen Van Hoang Giap:0987426344:Huong Khe
+-1:Lau cua dong:3:300000
++300000

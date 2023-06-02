@@ -1,0 +1,3 @@
+=thanh:123:123
+-1: thit cho cham mam tom cay 7 mon:12:1800000
++1800000

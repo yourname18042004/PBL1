@@ -1,5 +1,5 @@
 4
-1 Khai_vi
-2 Lau
-3 Nuoc_Ngot
-4 Hai_san
+1:Khai vi
+2:Lau
+3:Nuoc Ngot
+4:Hai san

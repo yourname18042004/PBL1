@@ -1,18 +1,19 @@
-17
-1  Tom chien xu 40000 1
-2  com chay 20000 1
-3  bap rang 20000 1
-4  ga 100000 1
-5  Goi Hai San 70000 1
-6  Com chien 120000 1
-7  Lau thai cay 120000 2
-8  thit bo nuong 100000 2
-9  ga xe 50000 2
-10  Lau cay 140000 2
-11  Lau cua dong 100000 2
-12  Tom Lan Bot 100000 2
-13  Lau Hai San 150000 2
-14  superrise 10000 3
-15  nuocngot 100000 3
-16  Bia 12000 3
-17 Ca noc 10000 4
+18
+1:Tom chien xu:40000:1
+2:com chay:20000:1
+3:bap rang:20000:1
+4:ga:10000:1
+5:Goi Hai San:70000:1
+6:Com chien:120000:1
+7:Giap 7 mon:1500:1
+8:Lau thai cay:120000:2
+9:thit bo nuong:100000:2
+10:ga xe:50000:2
+11:Lau cay:140000:2
+12:Lau cua dong:100000:2
+13:Tom Lan Bot:100000:2
+14:Lau Hai San:150000:2
+15:superrise:10000:3
+16:nuocngot:100000:3
+17:Nuoc cam:15000:3
+18:Bia:12000:4
