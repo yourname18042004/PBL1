@@ -242,7 +242,7 @@ void Doc_Loai_Mon(){
 void In_MENU(){
 	int i, j, h, k = 60;
 	for(h = 0; h <(k/2)-2; h++) printf("="); printf(" MENU "); for(h = 0; h <(k/2)-2; h++) printf("="); printf("\n");
-	printf("| %7s | %28s | %13s     |\n", "STT", "Mon an", "Gia");
+	printf("| %7s | 		%-12s	 | %13s     |\n", "STT", "Mon an", "Gia");
 	
 	for(i = 0; i < SoLoaiMon; i++){
 		printf("|"); for(h = 0; h < k; h++) printf("_"); printf("|\n");
@@ -415,7 +415,9 @@ void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri){
 	fprintf(g, "|"); for(i = 0; i < n-2; i++) fprintf(g, " "); fprintf(g, "|\n");
 	char *h = strstr(read, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
 	*h = '\0';
+	printf("|	Da giam gia %-3d %c				   |\n",PhanTram,37);
 	printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
+	fprintf(g, "|	 Da giam gia %d %c		|\n",PhanTram,37);
 	fprintf(g, "|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
 	
 	for(i = 0; i < n; i++) printf("="); printf("\n");
