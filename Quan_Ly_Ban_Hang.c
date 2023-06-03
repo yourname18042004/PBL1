@@ -15,11 +15,12 @@ struct MonAn{
 	int stt[max];
 	int giaTien[max];
 	int loai[max];
-} ; 
+}; 
 
 struct LoaiMon{
+	char tenLoai[max][max];	
 	int loai[max];
-	char tenLoai[max][max];
+	
 };
 
 struct MonAn monAn;
@@ -31,9 +32,10 @@ int So_Hoa_Don = 0; // SO DON DA BAN DUOC TRONG NGAY
 char mdd[max], ngay[max];
 
 char HoTen[max];
-char soDT[max];
+char soDT[max]; // Thong tin khach hang
 char DiaChi[max];
 
+/* Cac thong so khuyen mai */
 long MucGiamGia;
 int PhanTram;
 
