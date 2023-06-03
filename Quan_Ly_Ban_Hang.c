@@ -417,7 +417,7 @@ void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri){
 	*h = '\0';
 	printf("|	Da giam gia %-3d %c				   |\n",PhanTram,37);
 	printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
-	fprintf(g, "|	 Da giam gia %d %c		|\n",PhanTram,37);
+	fprintf(g, "|	Da giam gia %-3d %c				   |\n",PhanTram,37);
 	fprintf(g, "|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
 	
 	for(i = 0; i < n; i++) printf("="); printf("\n");
