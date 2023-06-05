@@ -11,3 +11,4 @@
 1 1 40000 HoaDon\\1_Ma_giao_dich_1.txt
 157 751 1560000 HoaDon\\157_Ma_giao_dich_751.txt
 03-06-2023 11 1680000 HoaDon\\03-06-2023_Ma_giao_dich_11.txt
+1 1 0 HoaDon\\1_Ma_giao_dich_1.txt

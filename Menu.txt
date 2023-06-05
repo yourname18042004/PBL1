@@ -16,4 +16,4 @@
 15:superrise:10000:3
 16:nuocngot:100000:3
 17:Nuoc cam:15000:3
-18:Bia:12000:4
+18:kem dau:10000:4

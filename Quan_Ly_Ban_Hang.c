@@ -737,7 +737,7 @@ void Them_Xoa_Loai(){
 			printf("Nhap ten loai mon can them:(Nhap 0 de thoat) "); 
 			fflush(stdin);
 			gets(loaiMon.tenLoai[SoLoaiMon]);
-			if(atoi(loaiMon.tenLoai[SoLoaiMon])==0) break;
+			if(strcmp(loaiMon.tenLoai[SoLoaiMon], "0") == 0) break;
 			SoLoaiMon++;
 			break;
 		case 2:
