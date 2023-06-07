@@ -12,3 +12,6 @@
 157 751 1560000 HoaDon\\157_Ma_giao_dich_751.txt
 03-06-2023 11 1680000 HoaDon\\03-06-2023_Ma_giao_dich_11.txt
 1 1 0 HoaDon\\1_Ma_giao_dich_1.txt
+171 171 5665000 HoaDon\\171_Ma_giao_dich_171.txt
+1e21e 12ee 5625000 HoaDon\\1e21e_Ma_giao_dich_12ee.txt
+12qwedqad 1231dqwdq 40000 HoaDon\\12qwedqad_Ma_giao_dich_1231dqwdq.txt

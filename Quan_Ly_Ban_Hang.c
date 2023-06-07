@@ -310,8 +310,11 @@ long Dat_Mon(FILE *f){
 		
 	}while(set != 0);	
 	
-	if(tongtien > MucGiamGia ) tongtien= tongtien - tongtien*(1.0)*PhanTram/100;
-	fprintf(f, "+%d\n",tongtien);
+	if(tongtien > MucGiamGia ){
+		tongtien= tongtien - tongtien*(1.0)*PhanTram/100;
+		fprintf(f, "+%d:1\n",tongtien);
+	}
+	else fprintf(f, "+%d:0\n",tongtien);
 
 	return tongtien;
 }
@@ -342,7 +345,6 @@ void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri){
 	strcat(DiaChiHoaDonKhachHang, "_");
 	strcat(DiaChiHoaDonKhachHang, soDT);
 	strcat(DiaChiHoaDonKhachHang, ".txt");
-	
 	
 	FILE *f;
 	f = fopen(Dia_Chi_File_Hoa_Don, "r");
@@ -415,12 +417,16 @@ void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri){
 	
 	printf("|"); for(i = 0; i < n-2; i++) printf(" "); printf("|\n");
 	fprintf(g, "|"); for(i = 0; i < n-2; i++) fprintf(g, " "); fprintf(g, "|\n");
-	char *h = strstr(read, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
-	*h = '\0';
-	printf("|	Da giam gia %-3d %c				   |\n",PhanTram,37);
-	fprintf(g, "|	Da giam gia %-3d %c				   |\n",PhanTram,37);
-	printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
 	
+	char *Tongtien, *xetGiam;
+	Tongtien = strtok(read, ":");
+	xetGiam = strtok(NULL, ":");
+	if(strcmp(xetGiam, "1\n") == 0){
+		printf("|	Da giam gia %-3d %c				   |\n",PhanTram,37);
+		fprintf(g, "|	Da giam gia %-3d %c				   |\n",PhanTram,37);
+	}
+	
+	printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
 	fprintf(g, "|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
 	
 	for(i = 0; i < n; i++) printf("="); printf("\n");
