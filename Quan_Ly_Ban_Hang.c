@@ -286,7 +286,7 @@ long Dat_Mon(FILE *f){
 		char soluong[max];
 		count++;
 		
-		printf("\nChon mon tren Menu: "); gets(tenmon); fflush(stdin);
+		printf("Chon mon tren Menu: "); gets(tenmon); fflush(stdin);
 		tenMon = atoi(tenmon);
 		while(!Check(tenmon) || tenMon < 0 || tenMon > SoMonAn){
 			printf("Thao tac khong hop le!!\n");
@@ -294,7 +294,7 @@ long Dat_Mon(FILE *f){
 			tenMon = atoi(tenmon);
 		}
 		
-		printf("\nBan da chon mon %s, hay chon so luong: ", monAn.tenMon[tenMon - 1]); gets(soluong); fflush(stdin);
+		printf("Ban da chon mon %s, hay chon so luong: ", monAn.tenMon[tenMon - 1]); gets(soluong); fflush(stdin);
 		soLuong = atoi(soluong);
 		while(!Check(soluong) || soLuong < 0){
 			printf("Thao tac khong hop le!!\n");
@@ -306,7 +306,7 @@ long Dat_Mon(FILE *f){
 		tongtien+=soLuong * monAn.giaTien[tenMon - 1];
 		
 		
-		printf("\nBan co mon chon mon tiep hay khong (1.co 0.khong): "); scanf("%d", &set); fflush(stdin);
+		printf("Ban co mon chon mon tiep hay khong (1.co 0.khong): "); scanf("%d", &set); fflush(stdin);
 		
 	}while(set != 0);	
 	
@@ -418,8 +418,9 @@ void Xuat_Hoa_Don(char Dia_Chi_File_Hoa_Don[max], int vitri){
 	char *h = strstr(read, "\n");  // xoa ki tu '\n' va thay vao la ki tu '\0'
 	*h = '\0';
 	printf("|	Da giam gia %-3d %c				   |\n",PhanTram,37);
-	printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
 	fprintf(g, "|	Da giam gia %-3d %c				   |\n",PhanTram,37);
+	printf("|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
+	
 	fprintf(g, "|    Tong so tien: %-10s  %-27s |\n", read+1, "VND");
 	
 	for(i = 0; i < n; i++) printf("="); printf("\n");

@@ -1,0 +1,14 @@
+=Thanh:084726321:Hue
+-1:Tom chien xu:10:400000
+-2:Com chien:10:1200000
+-3:Lau cay:10:1400000
+-4:Lau Hai San:20:3000000
++4500000
+=Thanh:0927236256:Hue
+-1:Tom chien xu:1:40000
+-2:com chay:2:40000
++80000
+=Giap:029217863:Da Nang
+-1:Tom chien xu:1:40000
+-2:com chay:1:20000
++60000

@@ -1,0 +1,4 @@
+=Nguyen Van Hoang Giap:078324145:Da Nang
+-1:Tom chien xu:3:120000
+-2:com chay:1:20000
++140000
