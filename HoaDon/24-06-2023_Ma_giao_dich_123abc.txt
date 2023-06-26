@@ -1,0 +1,14 @@
+=Nguyen Cong Thanh:0796631299:Hue
+-1:Tom chien xu:2:80000
+-2:Ga KFC:3:150000
++230000:0
+=Nguyen Van Hoang Giap:0782342112:Da Nang
+-1:Tom chien xu:2:80000
+-2:Kem dau:5:50000
+-3:Bia:12:144000
++274000:0
+=Dai Gia Sai Gon:08224621823:Sai Gon
+-1:Lau thai cay:10:1200000
+-2:Tom Lan Bot:15:1500000
+-3:Kem Oc Que:20:300000
++2250000:1

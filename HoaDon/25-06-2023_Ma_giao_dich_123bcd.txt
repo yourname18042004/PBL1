@@ -1,0 +1,14 @@
+=Nguyen Van A:090217626:Hue
+-1:Tom chien xu:10:400000
+-2:My Y:5:150000
+-3:Coca-Cola:12:1200000
++1750000:0
+=Le Thi B:092324834:Da Nang
+-1:Lau thai cay:5:600000
+-2:Kem Socola:10:120000
++720000:0
+=Do Van C:0123324423:So 15 Le Dai Hanh
+-1:Bap rang:3:60000
+-2:Ga KFC:7:350000
+-3:Bia:2:24000
++434000:0

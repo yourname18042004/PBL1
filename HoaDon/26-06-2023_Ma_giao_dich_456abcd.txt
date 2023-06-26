@@ -1,0 +1,11 @@
+=Thai Thi F:012842421:Ha Tinh
+-1:Tom Lan Bot:12:1200000
+-2:Coca-Cola:10:1000000
+-3:Tom Lan Bot:3:300000
+-4:Bia:10:120000
++1965000:1
+=Ton Nu Thi G:012941231:Hue
+-1:Kem dau:11:110000
+-2:Coca-Cola:10:1000000
+-3:Bap rang:5:100000
++1210000:0

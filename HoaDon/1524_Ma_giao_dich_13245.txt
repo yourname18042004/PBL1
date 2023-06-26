@@ -1,3 +1,0 @@
-=thanh:11:1
--1:Tom chien xu:0:0
-+0
